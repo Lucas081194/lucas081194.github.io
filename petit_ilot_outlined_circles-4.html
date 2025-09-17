@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petit Ilot - Indoor Play & Development Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #FF925C;
+            --primary-green: #B0F2B6;
+            --primary-pink: #FDBAED;
+            --primary-purple: #CCCCFF;
+            --primary-blue: #8DCEFB;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #F5F1E8;
+            --header-footer: #C4A484;
+            --section-bg: #E8DCC6;
+        }
+
+        body {
+            font-family: 'Sniglet', cursive;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            font-weight: normal;
+            background-color: var(--white);
+            position: relative;
+        }
+
+        /* Background Circles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle 80px at 15% 20%, var(--primary-orange) 70%, transparent 70%),
+                radial-gradient(circle 60px at 85% 15%, transparent 65%, var(--primary-blue) 65%, var(--primary-blue) 70%, transparent 70%),
+                radial-gradient(circle 100px at 25% 80%, var(--primary-green) 70%, transparent 70%),
+                radial-gradient(circle 70px at 75% 70%, var(--primary-pink) 70%, transparent 70%),
+                radial-gradient(circle 50px at 45% 35%, transparent 65%, var(--primary-purple) 65%, var(--primary-purple) 70%, transparent 70%),
+                radial-gradient(circle 40px at 90% 85%, var(--primary-orange) 70%, transparent 70%),
+                radial-gradient(circle 90px at 10% 60%, var(--primary-blue) 70%, transparent 70%),
+                radial-gradient(circle 45px at 60% 10%, var(--primary-green) 70%, transparent 70%),
+                radial-gradient(circle 85px at 35% 90%, transparent 65%, var(--primary-pink) 65%, var(--primary-pink) 70%, transparent 70%),
+                radial-gradient(circle 65px at 80% 45%, var(--primary-purple) 70%, transparent 70%),
+                radial-gradient(circle 35px at 5% 35%, var(--primary-orange) 70%, transparent 70%),
+                radial-gradient(circle 55px at 65% 85%, var(--primary-blue) 70%, transparent 70%),
+                radial-gradient(circle 95px at 40% 5%, var(--primary-green) 70%, transparent 70%),
+                radial-gradient(circle 48px at 95% 25%, var(--primary-pink) 70%, transparent 70%),
+                radial-gradient(circle 75px at 20% 45%, var(--primary-purple) 70%, transparent 70%);
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle 42px at 55% 25%, var(--primary-orange) 70%, transparent 70%),
+                radial-gradient(circle 68px at 30% 70%, transparent 65%, var(--primary-green) 65%, var(--primary-green) 70%, transparent 70%),
+                radial-gradient(circle 52px at 70% 60%, var(--primary-pink) 70%, transparent 70%),
+                radial-gradient(circle 38px at 12% 85%, transparent 65%, var(--primary-purple) 65%, var(--primary-purple) 70%, transparent 70%),
+                radial-gradient(circle 88px at 88% 30%, var(--primary-blue) 70%, transparent 70%),
+                radial-gradient(circle 44px at 45% 15%, var(--primary-orange) 70%, transparent 70%),
+                radial-gradient(circle 58px at 25% 55%, var(--primary-green) 70%, transparent 70%),
+                radial-gradient(circle 72px at 75% 85%, transparent 65%, var(--primary-pink) 65%, var(--primary-pink) 70%, transparent 70%),
+                radial-gradient(circle 36px at 50% 75%, var(--primary-purple) 70%, transparent 70%),
+                radial-gradient(circle 62px at 85% 65%, var(--primary-blue) 70%, transparent 70%);
+        }
+
+        h1, h2, h3, h4, h5, h6, p, span, a, button {
+            font-weight: normal !important;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--section-bg);
+            border-radius: 25px;
+            padding: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-switcher button {
+            border: none;
+            background: transparent;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: normal;
+            transition: all 0.3s ease;
+        }
+
+        .language-switcher button.active {
+            background: var(--primary-orange);
+            color: var(--white);
+        }
+
+        .language-switcher button:hover:not(.active) {
+            background: var(--primary-green);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--header-footer);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: normal;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .header-social-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .header-social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--section-bg);
+            border-radius: 50%;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-social-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-social-link:nth-child(1):hover {
+            background: #1877F2;
+            color: white;
+        }
+
+        .header-social-link:nth-child(2):hover {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+        }
+
+        .header-social-link:nth-child(3):hover {
+            background: #000000;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin-right: 80px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: normal;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-orange);
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(141, 206, 251, 0.6) 0%, rgba(204, 204, 255, 0.6) 50%, rgba(253, 186, 237, 0.6) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-orange);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            border: 2px solid var(--primary-orange);
+            transition: all 0.3s ease;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--primary-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 146, 92, 0.3);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .placeholder-image {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+            font-weight: normal;
+        }
+
+        .placeholder-image:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        /* Social Media */
+        .social-media {
+            background: linear-gradient(135deg, rgba(176, 242, 182, 0.6) 0%, rgba(141, 206, 251, 0.6) 100%);
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: inline-block;
+            padding: 1rem;
+            background: var(--section-bg);
+            border-radius: 50%;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-link:nth-child(1):hover {
+            background: #1877F2;
+            color: white;
+        }
+
+        .social-link:nth-child(2):hover {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+        }
+
+        .social-link:nth-child(3):hover {
+            background: #000000;
+            color: white;
+        }
+
+        /* Concept Page */
+        .concept-zones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .zone-card {
+            background: var(--section-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .zone-card:nth-child(1) {
+            border-color: var(--primary-orange);
+        }
+
+        .zone-card:nth-child(2) {
+            border-color: var(--primary-green);
+        }
+
+        .zone-card:nth-child(3) {
+            border-color: var(--primary-pink);
+        }
+
+        .zone-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .zone-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .zone-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        /* Blog Section */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .blog-card {
+            background: var(--section-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .blog-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-weight: normal;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .blog-excerpt {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--header-footer);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Enhanced hover effects for blog cards */
+        .blog-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile responsiveness for new design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .concept-zones {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+            }
+
+            .language-switcher {
+                top: 15px;
+                right: 15px;
+            }
+
+            .hero-content div {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            /* Mobile adjustments for wavy sections */
+            .hero svg {
+                height: 60px;
+            }
+            
+            section svg {
+                height: 60px;
+            }
+        }
+
+        /* Hide class for language switching */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button onclick="switchLanguage('en')" class="lang-btn active" id="lang-en">EN</button>
+        <button onclick="switchLanguage('fr')" class="lang-btn" id="lang-fr">FR</button>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo-container">
+                <div class="logo" onclick="showPage('home')">Petit Ilot</div>
+                <div class="header-social-links">
+                    <a href="#" class="header-social-link" title="Facebook">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="header-social-link" title="Instagram">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="header-social-link" title="TikTok">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="showPage('home')" class="nav-link en">Home</a><a onclick="showPage('home')" class="nav-link fr hidden">Accueil</a></li>
+                <li><a onclick="showPage('about')" class="nav-link en">About</a><a onclick="showPage('about')" class="nav-link fr hidden">À Propos</a></li>
+                <li><a onclick="showPage('concept')" class="nav-link en">Concept</a><a onclick="showPage('concept')" class="nav-link fr hidden">Concept</a></li>
+                <li><a onclick="showPage('blog')" class="nav-link en">Updates</a><a onclick="showPage('blog')" class="nav-link fr hidden">Actualités</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="en">Welcome to Petit Ilot</h1>
+                <h1 class="fr hidden">Bienvenue à Petit Ilot</h1>
+                
+                <p class="en">An innovative indoor play space for children 0-10 years, fostering development through free play with active parental involvement.</p>
+                <p class="fr hidden">Un espace d'éveil et de jeux intérieur innovant pour enfants de 0 à 10 ans, favorisant le développement par le jeu libre avec implication parentale active.</p>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                    <a onclick="showPage('concept')" class="cta-button en">Discover Our Concept</a>
+                    <a onclick="showPage('concept')" class="cta-button fr hidden">Découvrez Notre Concept</a>
+                </div>
+            </div>
+            
+            
+        </section>
+
+        <!-- About Us Preview Section -->
+        <section style="padding: 2rem 2rem 10rem 2rem; background: rgba(232, 220, 198, 0.7); position: relative;">
+            <div style="max-width: 1200px; margin: 0 auto; padding-top: 3rem;">
+                <div class="about-content" style="align-items: center;">
+                    <div class="about-text">
+                        <h2 class="en" style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--text-dark);">Meet the Team Behind Petit Ilot</h2>
+                        <h2 class="fr hidden" style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--text-dark);">Rencontrez l'Équipe Derrière Petit Ilot</h2>
+                        
+                        <div class="en">
+                            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Lucas Couderc and Nadège Carra bring together expertise in sports science and early childhood education to create Montreal's most innovative indoor play space.</p>
+                            <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">With 15 years of combined experience working with children, we understand what makes play both fun and developmental.</p>
+                        </div>
+                        
+                        <div class="fr hidden">
+                            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Lucas Couderc et Nadège Carra réunissent leur expertise en sciences du sport et en éducation de la petite enfance pour créer l'espace de jeux intérieur le plus innovant de Montréal.</p>
+                            <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">Avec 15 ans d'expérience combinée auprès des enfants, nous comprenons ce qui rend le jeu à la fois amusant et développemental.</p>
+                        </div>
+                        
+                        <a onclick="showPage('about')" class="cta-button en" style="background: var(--primary-orange); border-color: var(--primary-orange); box-shadow: 0 8px 25px rgba(255, 146, 92, 0.3);">Learn More About Us</a>
+                        <a onclick="showPage('about')" class="cta-button fr hidden" style="background: var(--primary-orange); border-color: var(--primary-orange); box-shadow: 0 8px 25px rgba(255, 146, 92, 0.3);">En Savoir Plus</a>
+                    </div>
+                    <div class="about-image">
+                        <div class="placeholder-image" style="background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-pink) 100%); box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-radius: 30px;">
+                            <span class="en">Lucas & Nadège</span>
+                            <span class="fr hidden">Lucas & Nadège</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </section>
+
+        <!-- Latest Updates Preview Section -->
+        <section style="padding: 6rem 2rem; background: rgba(245, 241, 232, 0.8); position: relative;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 class="section-title en" style="margin-bottom: 1rem;">Latest Project Updates</h2>
+                <h2 class="section-title fr hidden" style="margin-bottom: 1rem;">Dernières Actualités du Projet</h2>
+                
+                <p class="en" style="text-align: center; font-size: 1.2rem; margin-bottom: 4rem; color: var(--text-light);">Follow our journey as we bring Petit Ilot to life</p>
+                <p class="fr hidden" style="text-align: center; font-size: 1.2rem; margin-bottom: 4rem; color: var(--text-light);">Suivez notre parcours alors que nous donnons vie à Petit Ilot</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; margin-bottom: 4rem;">
+                    <div class="blog-card" onclick="showPage('article1')" style="border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: all 0.4s ease;">
+                        <div class="blog-image" style="border-radius: 0;">
+                            <span class="en">Coming Soon</span>
+                            <span class="fr hidden">Bientôt Disponible</span>
+                        </div>
+                        <div class="blog-content" style="padding: 2rem;">
+                            <div class="blog-date">
+                                <span class="en">August 19, 2025</span>
+                                <span class="fr hidden">19 Août 2025</span>
+                            </div>
+                            <h3 class="blog-title en">Project Launch Announcement</h3>
+                            <h3 class="blog-title fr hidden">Annonce du Lancement du Projet</h3>
+                            
+                            <p class="blog-excerpt en">We're excited to announce the beginning of our journey to create Montreal's most innovative indoor play space...</p>
+                            <p class="blog-excerpt fr hidden">Nous sommes ravis d'annoncer le début de notre aventure pour créer l'espace de jeux intérieur le plus innovant...</p>
+                        </div>
+                    </div>
+
+                    <div class="blog-card" onclick="showPage('article2')" style="border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: all 0.4s ease;">
+                        <div class="blog-image" style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%); border-radius: 0;">
+                            <span class="en">Location Search</span>
+                            <span class="fr hidden">Recherche d'Emplacement</span>
+                        </div>
+                        <div class="blog-content" style="padding: 2rem;">
+                            <div class="blog-date">
+                                <span class="en">September 15, 2025</span>
+                                <span class="fr hidden">15 Septembre 2025</span>
+                            </div>
+                            <h3 class="blog-title en">Finding the Perfect Location</h3>
+                            <h3 class="blog-title fr hidden">Trouver l'Emplacement Parfait</h3>
+                            
+                            <p class="blog-excerpt en">Our search continues for the ideal 3,500 sq ft space in Villeray or surrounding family-friendly neighborhoods...</p>
+                            <p class="blog-excerpt fr hidden">Notre recherche continue pour l'espace idéal de 3 500 pi² à Villeray ou dans les quartiers familiaux...</p>
+                        </div>
+                    </div>
+
+                    <div class="blog-card" onclick="showPage('article3')" style="border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: all 0.4s ease;">
+                        <div class="blog-image" style="background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-purple) 100%); border-radius: 0;">
+                            <span class="en">Equipment Design</span>
+                            <span class="fr hidden">Conception Équipements</span>
+                        </div>
+                        <div class="blog-content" style="padding: 2rem;">
+                            <div class="blog-date">
+                                <span class="en">October 8, 2025</span>
+                                <span class="fr hidden">8 Octobre 2025</span>
+                            </div>
+                            <h3 class="blog-title en">Equipment Selection & Safety Standards</h3>
+                            <h3 class="blog-title fr hidden">Sélection d'Équipements & Normes de Sécurité</h3>
+                            
+                            <p class="blog-excerpt en">Working with certified suppliers to ensure all play equipment meets the highest Canadian and European safety standards...</p>
+                            <p class="blog-excerpt fr hidden">Collaboration avec des fournisseurs certifiés pour s'assurer que tous les équipements de jeu respectent...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <a onclick="showPage('blog')" class="cta-button en" style="background: var(--primary-purple); border-color: var(--primary-purple); box-shadow: 0 8px 25px rgba(204, 204, 255, 0.4);">View All Updates</a>
+                    <a onclick="showPage('blog')" class="cta-button fr hidden" style="background: var(--primary-purple); border-color: var(--primary-purple); box-shadow: 0 8px 25px rgba(204, 204, 255, 0.4);">Voir Toutes les Actualités</a>
+                </div>
+            </div>
+            
+            
+        </section>
+
+        <!-- Social Media Section -->
+        <section class="social-media" style="padding: 4rem 2rem; position: relative; border-radius: 0;">
+            <h2 class="en">Follow Our Journey</h2>
+            <h2 class="fr hidden">Suivez Notre Aventure</h2>
+            
+            <p class="en">Stay updated on our progress toward opening day!</p>
+            <p class="fr hidden">Restez informés de nos progrès vers l'ouverture!</p>
+            
+            <div class="social-links" style="margin-top: 2.5rem;">
+                <a href="#" class="social-link" title="Facebook" style="border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-link" title="Instagram" style="border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-link" title="TikTok" style="border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about" class="page">
+        <section>
+            <h2 class="section-title en">About Us</h2>
+            <h2 class="section-title fr hidden">À Propos de Nous</h2>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="en">
+                        <p>Petit Ilot is founded by Lucas Couderc and Nadège Carra, two passionate professionals dedicated to children's development through play.</p>
+                        <br>
+                        <p>Lucas Couderc - Owner/Manager: Graduate in Sports Science with 10 years of experience in children's sports animation, bringing expertise in physical development and motor skills.</p>
+                        <br>
+                        <p>Nadège Carra - Co-Manager: Kindergarten teacher for 5 years with specialized experience working with children with specific needs, ensuring inclusive and adapted programming.</p>
+                        <br>
+                        <p>Together, we're creating Montreal's first indoor play space combining motor skills, symbolic play, and sensory experiences in a safe, high-quality environment designed for free play and family bonding.</p>
+                    </div>
+                    
+                    <div class="fr hidden">
+                        <p>Petit Ilot est fondé par Lucas Couderc et Nadège Carra, deux professionnels passionnés dédiés au développement des enfants par le jeu.</p>
+                        <br>
+                        <p>Lucas Couderc - Propriétaire/Gérant : Diplômé en sciences du sport avec 10 ans d'expérience dans l'animation sportive pour enfants, apportant une expertise en développement physique et motricité.</p>
+                        <br>
+                        <p>Nadège Carra - Co-gérante : Enseignante en maternelle depuis 5 ans avec une expérience spécialisée auprès d'enfants à besoins spécifiques, assurant une programmation inclusive et adaptée.</p>
+                        <br>
+                        <p>Ensemble, nous créons le premier espace de jeux intérieur de Montréal combinant motricité, jeux symboliques et expériences sensorielles dans un environnement sécuritaire et de haute qualité conçu pour le jeu libre et les liens familiaux.</p>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="placeholder-image">
+                        <span class="en">Lucas & Nadège</span>
+                        <span class="fr hidden">Lucas & Nadège</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CONCEPT PAGE -->
+    <div id="concept" class="page">
+        <section>
+            <h2 class="section-title en">Our Concept</h2>
+            <h2 class="section-title fr hidden">Notre Concept</h2>
+            
+            <div class="en">
+                <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: var(--text-light);">
+                    A unique indoor play space designed for children 0-10 years and their parents, featuring three distinct zones that promote physical, emotional, social, and cognitive development through child-initiated free play.
+                </p>
+            </div>
+            
+            <div class="fr hidden">
+                <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: var(--text-light);">
+                    Un espace de jeux intérieur unique conçu pour les enfants de 0 à 10 ans et leurs parents, avec trois zones distinctes qui favorisent le développement physique, émotionnel, social et cognitif par le jeu libre initié par les enfants.
+                </p>
+            </div>
+
+            <div class="concept-zones">
+                <div class="zone-card">
+                    <div class="zone-icon">🏃‍♂️</div>
+                    <h3 class="en">Motor Skills Zone</h3>
+                    <h3 class="fr hidden">Zone Motrice</h3>
+                    
+                    <div class="en">
+                        <p>• Gymnastics obstacle courses<br>
+                        • Secure foam pit<br>
+                        • Age-appropriate climbing structures<br>
+                        • Play structures with slides</p>
+                    </div>
+                    
+                    <div class="fr hidden">
+                        <p>• Parcours de motricité sur praticable<br>
+                        • Bac à mousse sécurisé<br>
+                        • Structures d'escalade adaptées<br>
+                        • Structures de jeux avec glissades</p>
+                    </div>
+                </div>
+
+                <div class="zone-card">
+                    <div class="zone-icon">🏪</div>
+                    <h3 class="en">Symbolic Play Zone</h3>
+                    <h3 class="fr hidden">Zone Jeux Symboliques</h3>
+                    
+                    <div class="en">
+                        <p>• Interactive mini-city with grocery store<br>
+                        • House and construction site<br>
+                        • Themed costumes and accessories<br>
+                        • First of its kind in Montreal!</p>
+                    </div>
+                    
+                    <div class="fr hidden">
+                        <p>• Mini-ville interactive avec épicerie<br>
+                        • Maison et chantier de construction<br>
+                        • Costumes et accessoires thématiques<br>
+                        • Premier du genre à Montréal!</p>
+                    </div>
+                </div>
+
+                <div class="zone-card">
+                    <div class="zone-icon">🧘‍♀️</div>
+                    <h3 class="en">Calm & Sensory Zone</h3>
+                    <h3 class="fr hidden">Zone Calme & Sensorielle</h3>
+                    
+                    <div class="en">
+                        <p>• Relaxation and sensory space<br>
+                        • Building and fine motor games<br>
+                        • Library & board games<br>
+                        • Artistic expression area</p>
+                    </div>
+                    
+                    <div class="fr hidden">
+                        <p>• Espace détente et sensoriel<br>
+                        • Jeux de construction et motricité fine<br>
+                        • Bibliothèque & jeux de société<br>
+                        • Zone d'expression artistique</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 4rem; padding: 2rem; background: var(--primary-green); border-radius: 15px;">
+                <h3 class="en" style="text-align: center; margin-bottom: 1rem;">Why Choose Petit Ilot?</h3>
+                <h3 class="fr hidden" style="text-align: center; margin-bottom: 1rem;">Pourquoi Choisir Petit Ilot?</h3>
+                
+                <div class="en">
+                    <p>✓ All equipment meets Canadian (CSA Z614) and European (EN 1176) safety standards<br>
+                    ✓ Limited capacity (30 children per session) for a premium, safe experience<br>
+                    ✓ No screens, no food service - focus on play and family bonding<br>
+                    ✓ Equipment designed to support adult weight for active parent participation<br>
+                    ✓ Age-specific time slots ensure appropriate activities and safety</p>
+                </div>
+                
+                <div class="fr hidden">
+                    <p>✓ Tous les équipements respectent les normes de sécurité canadiennes (CSA Z614) et européennes (EN 1176)<br>
+                    ✓ Capacité limitée (30 enfants par créneau) pour une expérience premium et sécuritaire<br>
+                    ✓ Pas d'écrans, pas de restauration - focus sur le jeu et les liens familiaux<br>
+                    ✓ Équipements conçus pour supporter le poids des adultes pour une participation parentale active<br>
+                    ✓ Créneaux par tranche d'âge assurent activités appropriées et sécurité</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- BLOG PAGE -->
+    <div id="blog" class="page">
+        <section>
+            <h2 class="section-title en">Project Updates</h2>
+            <h2 class="section-title fr hidden">Actualités du Projet</h2>
+            
+            <div class="blog-grid">
+                <div class="blog-card" onclick="showPage('article1')">
+                    <div class="blog-image">
+                        <span class="en">Coming Soon</span>
+                        <span class="fr hidden">Bientôt Disponible</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">
+                            <span class="en">August 2025</span>
+                            <span class="fr hidden">Août 2025</span>
+                        </div>
+                        <h3 class="blog-title en">Project Launch Announcement</h3>
+                        <h3 class="blog-title fr hidden">Annonce du Lancement du Projet</h3>
+                        
+                        <p class="blog-excerpt en">We're excited to announce the beginning of our journey to create Montreal's most innovative indoor play space for children and families.</p>
+                        <p class="blog-excerpt fr hidden">Nous sommes ravis d'annoncer le début de notre aventure pour créer l'espace de jeux intérieur le plus innovant de Montréal pour les enfants et les familles.</p>
+                    </div>
+                </div>
+
+                <div class="blog-card" onclick="showPage('article2')">
+                    <div class="blog-image">
+                        <span class="en">Location Search</span>
+                        <span class="fr hidden">Recherche d'Emplacement</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">
+                            <span class="en">September 2025</span>
+                            <span class="fr hidden">Septembre 2025</span>
+                        </div>
+                        <h3 class="blog-title en">Finding the Perfect Location</h3>
+                        <h3 class="blog-title fr hidden">Trouver l'Emplacement Parfait</h3>
+                        
+                        <p class="blog-excerpt en">Our search continues for the ideal 3,500 sq ft space in Villeray or surrounding family-friendly neighborhoods with high ceilings and great accessibility.</p>
+                        <p class="blog-excerpt fr hidden">Notre recherche continue pour l'espace idéal de 3 500 pi² à Villeray ou dans les quartiers familiaux environnants avec hauts plafonds et excellente accessibilité.</p>
+                    </div>
+                </div>
+
+                <div class="blog-card" onclick="showPage('article3')">
+                    <div class="blog-image">
+                        <span class="en">Equipment Design</span>
+                        <span class="fr hidden">Conception Équipements</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">
+                            <span class="en">October 2025</span>
+                            <span class="fr hidden">Octobre 2025</span>
+                        </div>
+                        <h3 class="blog-title en">Equipment Selection & Safety Standards</h3>
+                        <h3 class="blog-title fr hidden">Sélection d'Équipements & Normes de Sécurité</h3>
+                        
+                        <p class="blog-excerpt en">Working with certified suppliers to ensure all play equipment meets the highest Canadian and European safety standards for children's development.</p>
+                        <p class="blog-excerpt fr hidden">Collaboration avec des fournisseurs certifiés pour s'assurer que tous les équipements de jeu respectent les plus hautes normes de sécurité canadiennes et européennes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-pink) 100%); border-radius: 15px;">
+                <h3 class="en">Stay Tuned for More Updates!</h3>
+                <h3 class="fr hidden">Restez Connectés pour Plus d'Actualités!</h3>
+                
+                <p class="en" style="margin-top: 1rem; margin-bottom: 2rem;">Follow us on social media for the latest news, behind-the-scenes content, and exclusive previews of our progress toward opening day.</p>
+                <p class="fr hidden" style="margin-top: 1rem; margin-bottom: 2rem;">Suivez-nous sur les réseaux sociaux pour les dernières nouvelles, le contenu en coulisses et les aperçus exclusifs de nos progrès vers le jour d'ouverture.</p>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Facebook">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" title="Instagram">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" title="TikTok">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ARTICLE 1 PAGE -->
+    <div id="article1" class="page">
+        <section>
+            <div style="margin-bottom: 2rem;">
+                <button onclick="showPage('blog')" style="background: var(--primary-green); color: var(--text-dark); border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 500; margin-bottom: 1rem;">
+                    <span class="en">← Back to Updates</span>
+                    <span class="fr hidden">← Retour aux Actualités</span>
+                </button>
+            </div>
+            
+            <div class="blog-date" style="text-align: center; margin-bottom: 1rem;">
+                <span class="en">August 19, 2025</span>
+                <span class="fr hidden">19 Août 2025</span>
+            </div>
+            
+            <h1 class="section-title en">Project Launch Announcement</h1>
+            <h1 class="section-title fr hidden">Annonce du Lancement du Projet</h1>
+            
+            <div style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8;">
+                <div class="en">
+                    <p style="margin-bottom: 2rem;">Today marks an exciting milestone in our journey - the official launch of Petit Ilot! After months of planning, research, and preparation, we're thrilled to share our vision for Montreal's most innovative indoor play space designed specifically for children aged 0-10 years and their families.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Our Mission</h3>
+                    <p style="margin-bottom: 2rem;">At Petit Ilot, we believe that play is the foundation of childhood development. Our mission is to create a safe, engaging environment where children can explore, learn, and grow through child-initiated free play while fostering meaningful connections between parents and their little ones.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">What Makes Us Different</h3>
+                    <p style="margin-bottom: 1rem;">Unlike traditional play centers, Petit Ilot focuses on:</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li>Three distinct developmental zones designed by child development experts</li>
+                        <li>Equipment that supports active parent participation</li>
+                        <li>Screen-free environment promoting real-world interaction</li>
+                        <li>Limited capacity ensuring a premium, safe experience</li>
+                        <li>Age-appropriate time slots for optimal development</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">The Journey Ahead</h3>
+                    <p style="margin-bottom: 2rem;">Over the coming months, we'll be sharing our progress as we search for the perfect location, select our equipment, and prepare for our grand opening. We're committed to transparency and want our future families to be part of this exciting journey from the very beginning.</p>
+                    
+                    <p>Follow us on social media to stay updated on our progress and be the first to know about our opening date!</p>
+                </div>
+                
+                <div class="fr hidden">
+                    <p style="margin-bottom: 2rem;">Aujourd'hui marque une étape passionnante de notre parcours - le lancement officiel de Petit Ilot ! Après des mois de planification, de recherche et de préparation, nous sommes ravis de partager notre vision pour l'espace de jeux intérieur le plus innovant de Montréal, conçu spécifiquement pour les enfants de 0 à 10 ans et leurs familles.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Notre Mission</h3>
+                    <p style="margin-bottom: 2rem;">Chez Petit Ilot, nous croyons que le jeu est la base du développement de l'enfance. Notre mission est de créer un environnement sûr et engageant où les enfants peuvent explorer, apprendre et grandir par le jeu libre initié par les enfants tout en favorisant des connexions significatives entre les parents et leurs petits.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Ce Qui Nous Rend Différents</h3>
+                    <p style="margin-bottom: 1rem;">Contrairement aux centres de jeux traditionnels, Petit Ilot se concentre sur :</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li>Trois zones de développement distinctes conçues par des experts en développement de l'enfant</li>
+                        <li>Équipements qui soutiennent la participation parentale active</li>
+                        <li>Environnement sans écrans favorisant l'interaction du monde réel</li>
+                        <li>Capacité limitée assurant une expérience premium et sécuritaire</li>
+                        <li>Créneaux horaires adaptés à l'âge pour un développement optimal</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Le Chemin à Parcourir</h3>
+                    <p style="margin-bottom: 2rem;">Au cours des prochains mois, nous partagerons nos progrès alors que nous recherchons l'emplacement parfait, sélectionnons nos équipements et nous préparons pour notre grande ouverture. Nous nous engageons à la transparence et voulons que nos futures familles fassent partie de cette aventure passionnante dès le tout début.</p>
+                    
+                    <p><strong>Suivez-nous sur les réseaux sociaux pour rester informés de nos progrès et être les premiers à connaître notre date d'ouverture !</strong></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ARTICLE 2 PAGE -->
+    <div id="article2" class="page">
+        <section>
+            <div style="margin-bottom: 2rem;">
+                <button onclick="showPage('blog')" style="background: var(--primary-green); color: var(--text-dark); border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 500; margin-bottom: 1rem;">
+                    <span class="en">← Back to Updates</span>
+                    <span class="fr hidden">← Retour aux Actualités</span>
+                </button>
+            </div>
+            
+            <div class="blog-date" style="text-align: center; margin-bottom: 1rem;">
+                <span class="en">September 15, 2025</span>
+                <span class="fr hidden">15 Septembre 2025</span>
+            </div>
+            
+            <h1 class="section-title en">Finding the Perfect Location</h1>
+            <h1 class="section-title fr hidden">Trouver l'Emplacement Parfait</h1>
+            
+            <div style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8;">
+                <div class="en">
+                    <p style="margin-bottom: 2rem;">The search for our ideal location is well underway, and we're excited to share what we're looking for and why location is so crucial to the Petit Ilot experience.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Our Location Criteria</h3>
+                    <p style="margin-bottom: 1rem;">We're seeking a special space that meets our high standards:</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li><strong>Size:</strong> Minimum 3,500 square feet to accommodate our three distinct play zones</li>
+                        <li><strong>Ceiling Height:</strong> At least 12 feet to safely install our climbing structures and play equipment</li>
+                        <li><strong>Accessibility:</strong> Ground floor with excellent wheelchair and stroller access</li>
+                        <li><strong>Parking:</strong> Ample parking for families with young children</li>
+                        <li><strong>Safety:</strong> Secure location with controlled access and visibility</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Target Neighborhoods</h3>
+                    <p style="margin-bottom: 2rem;">We're focusing our search on family-friendly neighborhoods, particularly Villeray and surrounding areas. These communities are known for their strong family presence, walkability, and access to public transportation - all important factors for our families.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Current Progress</h3>
+                    <p style="margin-bottom: 2rem;">We've already visited several promising locations and are working closely with commercial real estate agents who understand our unique requirements. Each potential space is being evaluated not just for its physical attributes, but for how well it will serve our community of families.</p>
+                    
+                    <p><strong>Stay tuned for updates as we get closer to announcing our future home!</strong></p>
+                </div>
+                
+                <div class="fr hidden">
+                    <p style="margin-bottom: 2rem;">La recherche de notre emplacement idéal est bien en cours, et nous sommes ravis de partager ce que nous recherchons et pourquoi l'emplacement est si crucial pour l'expérience Petit Ilot.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Nos Critères d'Emplacement</h3>
+                    <p style="margin-bottom: 1rem;">Nous recherchons un espace spécial qui répond à nos normes élevées :</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li><strong>Taille :</strong> Minimum 3 500 pieds carrés pour accueillir nos trois zones de jeu distinctes</li>
+                        <li><strong>Hauteur de plafond :</strong> Au moins 12 pieds pour installer en sécurité nos structures d'escalade et équipements de jeu</li>
+                        <li><strong>Accessibilité :</strong> Rez-de-chaussée avec excellent accès pour fauteuils roulants et poussettes</li>
+                        <li><strong>Stationnement :</strong> Stationnement suffisant pour les familles avec jeunes enfants</li>
+                        <li><strong>Sécurité :</strong> Emplacement sécurisé avec accès contrôlé et visibilité</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Quartiers Ciblés</h3>
+                    <p style="margin-bottom: 2rem;">Nous concentrons notre recherche sur les quartiers familiaux, particulièrement Villeray et les zones environnantes. Ces communautés sont reconnues pour leur forte présence familiale, leur marchabilité et leur accès au transport en commun - tous des facteurs importants pour nos familles.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Progrès Actuel</h3>
+                    <p style="margin-bottom: 2rem;">Nous avons déjà visité plusieurs emplacements prometteurs et travaillons étroitement avec des agents immobiliers commerciaux qui comprennent nos exigences uniques. Chaque espace potentiel est évalué non seulement pour ses attributs physiques, mais aussi pour la qualité du service qu'il offrira à notre communauté de familles.</p>
+                    
+                    <p><strong>Restez connectés pour les mises à jour alors que nous nous rapprochons de l'annonce de notre futur domicile !</strong></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ARTICLE 3 PAGE -->
+    <div id="article3" class="page">
+        <section>
+            <div style="margin-bottom: 2rem;">
+                <button onclick="showPage('blog')" style="background: var(--primary-green); color: var(--text-dark); border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 500; margin-bottom: 1rem;">
+                    <span class="en">← Back to Updates</span>
+                    <span class="fr hidden">← Retour aux Actualités</span>
+                </button>
+            </div>
+            
+            <div class="blog-date" style="text-align: center; margin-bottom: 1rem;">
+                <span class="en">October 8, 2025</span>
+                <span class="fr hidden">8 Octobre 2025</span>
+            </div>
+            
+            <h1 class="section-title en">Equipment Selection & Safety Standards</h1>
+            <h1 class="section-title fr hidden">Sélection d'Équipements & Normes de Sécurité</h1>
+            
+            <div style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8;">
+                <div class="en">
+                    <p style="margin-bottom: 2rem;">Safety is our top priority at Petit Ilot, and we're taking no shortcuts when it comes to selecting equipment that will provide years of safe, developmental play for Montreal families.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Safety Standards We Follow</h3>
+                    <p style="margin-bottom: 1rem;">All our equipment will meet or exceed:</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li><strong>Canadian Standards (CSA Z614):</strong> Playground equipment and surfacing requirements</li>
+                        <li><strong>European Standards (EN 1176):</strong> Additional safety requirements for playground equipment</li>
+                        <li><strong>Health Canada Guidelines:</strong> For child-safe materials and finishes</li>
+                        <li><strong>Fire Safety Codes:</strong> Meeting all municipal requirements</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Equipment Selection Process</h3>
+                    <p style="margin-bottom: 2rem;">We're working exclusively with certified suppliers who specialize in commercial-grade play equipment. Each piece is being selected not just for fun, but for its developmental benefits and ability to support children of varying abilities and needs.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Special Features</h3>
+                    <p style="margin-bottom: 1rem;">What sets our equipment apart:</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li><strong>Adult-Weight Capacity:</strong> All equipment designed to support parent participation</li>
+                        <li><strong>Sensory Integration:</strong> Textures, sounds, and visual elements that support sensory development</li>
+                        <li><strong>Adaptive Design:</strong> Equipment accessible to children with varying physical abilities</li>
+                        <li><strong>Easy Maintenance:</strong> Antimicrobial surfaces and easy-to-clean materials</li>
+                    </ul>
+                    
+                    <p><strong>We can't wait to show you the amazing play environment we're creating!</strong></p>
+                </div>
+                
+                <div class="fr hidden">
+                    <p style="margin-bottom: 2rem;">La sécurité est notre priorité absolue chez Petit Ilot, et nous ne prenons aucun raccourci quand il s'agit de sélectionner des équipements qui offriront des années de jeu sécuritaire et développemental pour les familles montréalaises.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Normes de Sécurité que Nous Suivons</h3>
+                    <p style="margin-bottom: 1rem;">Tous nos équipements respecteront ou dépasseront :</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li><strong>Normes Canadiennes (CSA Z614) :</strong> Exigences pour équipements et surfaces de jeux</li>
+                        <li><strong>Normes Européennes (EN 1176) :</strong> Exigences de sécurité supplémentaires pour équipements de jeux</li>
+                        <li><strong>Directives de Santé Canada :</strong> Pour matériaux et finitions sécuritaires pour enfants</li>
+                        <li><strong>Codes de Sécurité Incendie :</strong> Respectant toutes les exigences municipales</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Processus de Sélection d'Équipements</h3>
+                    <p style="margin-bottom: 2rem;">Nous travaillons exclusivement avec des fournisseurs certifiés spécialisés dans les équipements de jeu de qualité commerciale. Chaque pièce est sélectionnée non seulement pour le plaisir, mais pour ses bénéfices développementaux et sa capacité à soutenir les enfants de capacités et besoins variés.</p>
+                    
+                    <h3 style="color: var(--primary-orange); margin: 2rem 0 1rem 0;">Caractéristiques Spéciales</h3>
+                    <p style="margin-bottom: 1rem;">Ce qui distingue nos équipements :</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li><strong>Capacité Poids Adulte :</strong> Tous les équipements conçus pour supporter la participation parentale</li>
+                        <li><strong>Intégration Sensorielle :</strong> Textures, sons et éléments visuels qui soutiennent le développement sensoriel</li>
+                        <li><strong>Design Adaptatif :</strong> Équipements accessibles aux enfants de capacités physiques variées</li>
+                        <li><strong>Entretien Facile :</strong> Surfaces antimicrobiennes et matériaux faciles à nettoyer</li>
+                    </ul>
+                    
+                    <p><strong>Nous avons hâte de vous montrer l'environnement de jeu extraordinaire que nous créons !</strong></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer style="background: var(--header-footer); color: var(--text-dark); text-align: center; padding: 2rem; margin: 0;">
+        <p class="en">&copy; 2025 Petit Ilot. All rights reserved. | Creating magical moments through play.</p>
+        <p class="fr hidden">&copy; 2025 Petit Ilot. Tous droits réservés. | Créer des moments magiques par le jeu.</p>
+    </footer>
+
+    <script>
+        let currentLanguage = 'en';
+
+        function switchLanguage(lang) {
+            // Update current language
+            currentLanguage = lang;
+            
+            // Update language button states
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('lang-' + lang).classList.add('active');
+            
+            // Hide all language elements
+            document.querySelectorAll('.en, .fr').forEach(el => el.classList.add('hidden'));
+            
+            // Show elements for selected language
+            document.querySelectorAll('.' + lang).forEach(el => el.classList.remove('hidden'));
+        }
+
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'var(--header-footer)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'var(--header-footer)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('.zone-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        document.querySelectorAll('.blog-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            switchLanguage('en');
+        });
+    </script>
+</body>
+</html>
